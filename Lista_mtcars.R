@@ -1,4 +1,4 @@
-# Carregar_os_dados
+# Carregar os dados
 #Para ver o caminho no Linux:
 #cd ~/Downloads
 #pwd
@@ -8,6 +8,10 @@ mtcars <- read.csv2("C:/Users/marce/Downloads/mtcars.csv")
 
 # Exibir os dados na tabela
 View(mtcars)
+
+######################################################
+######################################################
+######################################################
 
 #Letra A:
 
@@ -35,6 +39,11 @@ hist(mtcars$mpg, labels = TRUE, main = "Histograma de mpg", xlab = "mpg", ylab =
 #Boxplot:
 boxplot(mtcars$mpg, main = "Boxplot: mpg", col = "Brown")
 
+######################################################
+######################################################
+######################################################
+
+
 #Letra B:
 
 dados = data.frame(
@@ -49,6 +58,10 @@ boxplot (dados,
          col = c("red", "blue"))
 
 
+######################################################
+######################################################
+######################################################
+
 #Letra C:
 
 #Quartis:
@@ -56,22 +69,38 @@ quantile(mtcars$qsec, probs = 0.25)
 quantile(mtcars$qsec, probs = 0.50)
 quantile(mtcars$qsec, probs = 0.75)
 
-#Tabela:
+ 
+#quartis = quantile(mtcars$qsec, probs = c(0.25, 0.5, 0.75, 1.0))
+#quartisSec = cut(mtcars$qsec, breaks = quartis, labels = c("Q1", "Q2", "Q3"))
+#quartisSec
 
+#Tabela:
+limiteclas_qsec = seq(14, 22, by = 2)
+
+classes_qsec = c("14 |- 16", "16 |- 18", "18 |- 20", "20 |- 22")
+
+Freq_qsec = table (cut(mtcars$qsec, breaks = limiteclas_qsec, right = FALSE, labels = classes_qsec))
+
+FreqAc_qsec = cumsum(Freq_qsec)
+FreqRel_qsec = prop.table(Freq_qsec)
+FreqRelAc_qsec = cumsum(FreqRel_qsec)
+
+TabResul_qsec = cbind(Freq_qsec, FreqAc_qsec, FreqRel_qsec = round(FreqRel_qsec*100, digits = 2), FreqRelAc_qsec = round (FreqRelAc_qsec*100, digits = 2))
+
+TabResul_qsec
 
 #Histograma:
 
 hist(mtcars$qsec, labels = TRUE, main = "Histograma de qsec", xlab = "qsec", ylab = "Frequência")
 
+######################################################
+######################################################
+######################################################
+
+
 #Letra D:
 
 hist(mtcars$hp, labels = TRUE)
-
-Amplitude = max(mtcars$hp) - min(mtcars$hp); Amplitude
-
-NK = nclass.Sturges(mtcars$hp)
-
-AmpClasse = round(Amplitude/NK, digits = 0);
 
 limiteclas = seq(50, 350, by = 50)
 
@@ -86,6 +115,10 @@ FreqRelAc = cumsum(FreqRel)
 TabResul = cbind(Freq, FreqAc, FreqRel = round(FreqRel*100, digits = 2), FreqRelAc = round (FreqRelAc*100, digits = 2))
 
 TabResul
+
+######################################################
+######################################################
+######################################################
 
 #Letra E:
 
@@ -106,8 +139,20 @@ barplot ( freq_motor, freq_marcha, main = "Motor x Marcha", col = c("yellow", "o
 
 barplot (freq_marcha, freq_motor, main = "Marcha x Motor", col = c("yellow", "orange"), xlab = "Marcha", ylab = "Motor",  ylim = c(0, 20))
 
+######################################################
+######################################################
+######################################################
+
 #Letra F:
 
+######################################################
+######################################################
+######################################################
+
 #Letra G:
+
+######################################################
+######################################################
+######################################################
 
 #Letra H:
