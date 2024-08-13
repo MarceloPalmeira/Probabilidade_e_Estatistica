@@ -69,7 +69,7 @@ quantile(mtcars$qsec, probs = 0.25)
 quantile(mtcars$qsec, probs = 0.50)
 quantile(mtcars$qsec, probs = 0.75)
 
- 
+
 #quartis = quantile(mtcars$qsec, probs = c(0.25, 0.5, 0.75, 1.0))
 #quartisSec = cut(mtcars$qsec, breaks = quartis, labels = c("Q1", "Q2", "Q3"))
 #quartisSec
@@ -144,15 +144,95 @@ barplot (freq_marcha, freq_motor, main = "Marcha x Motor", col = c("yellow", "or
 ######################################################
 
 #Letra F:
+#criação data frame
+dados_2 = data.frame(
+  coluna_hp = mtcars$hp,
+  coluna_motor = mtcars$motor
+)
+
+# Transformar 'motor' em uma variável categórica (fator)
+dados_2$coluna_motor <- as.factor(dados_2$coluna_motor)
+
+# Criar uma tabela de frequências cruzadas
+tabela_frequencias <- table(dados_2$coluna_hp, dados_2$coluna_motor)
+
+# Criar o gráfico de barras
+barplot(tabela_frequencias, beside = TRUE, main = "Hp x Motor", col = c("red", "blue"), xlab = "Hp", ylab = "Frequência", legend = rownames(tabela_frequencias))
+
 
 ######################################################
 ######################################################
 ######################################################
 
 #Letra G:
+#Coeficiente de correlacao
+cor (mtcars$hp, mtcars$mpg)  
+
+# Gráfico de dispersão entre mpg e hp
+plot(mtcars$hp, mtcars$mpg,
+     main = "Dispersão entre hp e mpg",
+     xlab = "Cavalos de potência (hp)",
+     ylab = "Milhas por galão (mpg)",
+     pch = 19,  # Formato dos pontos
+     col = "blue")  # Cor dos pontos
+
+abline(lm(mtcars$mpg ~ mtcars$hp), col = "red", lwd = 2)
+
+#Agrupar por quartis:
+
+# Quartis de hp
+quartis_hp <- quantile(mtcars$hp, probs = c(0, 0.25, 0.5, 0.75, 1))
+quartis_hp
+
+# Quartis de mpg
+quartis_mpg <- quantile(mtcars$mpg, probs = c(0, 0.25, 0.5, 0.75, 1))
+quartis_mpg
+
+# Categorizar hp em quartis
+mtcars$hp_quartis <- cut(mtcars$hp, 
+                         breaks = quartis_hp, 
+                         include.lowest = TRUE, 
+                         labels = c("Q1", "Q2", "Q3", "Q4"))
+
+# Categorizar mpg em quartis
+mtcars$mpg_quartis <- cut(mtcars$mpg, 
+                          breaks = quartis_mpg, 
+                          include.lowest = TRUE, 
+                          labels = c("Q1", "Q2", "Q3", "Q4"))
+
+# Visualizar o resultado
+head(mtcars[, c("hp", "hp_quartis", "mpg", "mpg_quartis")])
+
+# Resumo da média de hp e mpg por quartis de hp
+aggregate(cbind(mpg, hp) ~ hp_quartis, data = mtcars, FUN = mean)
+
+# Resumo da média de hp e mpg por quartis de mpg
+aggregate(cbind(mpg, hp) ~ mpg_quartis, data = mtcars, FUN = mean)
 
 ######################################################
 ######################################################
 ######################################################
 
 #Letra H:
+
+#Histograma
+
+hist(mtcars$hp, labels = TRUE, main = "Histograma de hp", xlab = "hp", ylab = "Frequência")
+
+#Assimetria 
+
+skewness(mtcars$hp)
+
+#Pearson (AP2)
+
+# Calcular média e mediana.
+
+media <- mean(mtcars$hp)
+mediana <- median(mtcars$hp)
+desvio_padrao <- sd(mtcars$hp)
+
+assimetria_pearson2 <- 3 * (media - mediana) / desvio_padrao; assimetria_pearson2
+
+#Assimetria de Fischer (pacote e1071)
+install.packages("e1071")
+library(e1071)
