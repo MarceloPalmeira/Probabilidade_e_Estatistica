@@ -236,3 +236,21 @@ assimetria_pearson2 <- 3 * (media - mediana) / desvio_padrao; assimetria_pearson
 #Assimetria de Fischer (pacote e1071)
 install.packages("e1071")
 library(e1071)
+
+
+#OUTROS IMPORTANTES :
+
+#Moda:
+table(mtcars$mpg) ; subset(table(mtcars$mpg), table(mtcars$mpg)==max(table(mtcars$mpg)))
+
+#Gráfico de Pizza:
+
+cores <- rainbow(length(Freq)) 
+
+freq_motor <- table(mtcars$motor)
+
+cores <- rainbow(length(freq_motor))
+
+pie(freq_motor, col = cores, 
+    main = "Gráfico de Pizza - motor")
+
