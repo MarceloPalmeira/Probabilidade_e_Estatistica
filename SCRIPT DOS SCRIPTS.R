@@ -1,3 +1,7 @@
+#################################################################################################
+##############################################AB1################################################
+#################################################################################################
+
 ###### Introdução ao Software R #########################
 
 # NÃo usar palavras reservadas:
@@ -1223,6 +1227,398 @@ print(paste("Coef. Assimetria de Pearson (Segunda Fórmula):", assimetria_pearso
 print(paste("Coef. Assimetria de Bowley:", assimetria_bowley))
 print(paste("Coef. Assimetria calculado pelo pacote e1071:", assimetria_e1071))
 
+#################################################################################################
+##############################################AB1################################################
+#################################################################################################
+
+#################################################################################################
+##############################################AB2################################################
+#################################################################################################
+
+# Questão 1:
+# O volume de correspondência recebido por uma firma quinzenalmente tem distribuição normal com média de 4.000 cartas e desvio padrão de 200 cartas.
+# a) Qual a porcentagem de quinzenas em que a firma recebe entre 3.600 e 4.250 cartas?
+# b) Qual a porcentagem de quinzenas em que a firma recebe menos de 3.400 cartas?
+# c) Qual a porcentagem de quinzenas em que a firma recebe mais de 4.636 cartas?
+
+# Parâmetros
+media <- 4000  # média de cartas recebidas
+desvio_padrao <- 200  # desvio padrão de cartas
+
+# a) P(3600 < X < 4250)
+p_a <- pnorm(4250, mean = media, sd = desvio_padrao) - pnorm(3600, mean = media, sd = desvio_padrao)
+
+# b) P(X < 3400)
+p_b <- pnorm(3400, mean = media, sd = desvio_padrao)
+
+# c) P(X > 4636)
+p_c <- 1 - pnorm(4636, mean = media, sd = desvio_padrao)
+
+# Resultados
+cat("a) P(3600 < X < 4250):", p_a * 100, "%\n")
+cat("b) P(X < 3400):", p_b * 100, "%\n")
+cat("c) P(X > 4636):", p_c * 100, "%\n")
 
 
+desvio_padrao <- 10  # desvio padrão
 
+# a) P(X < 990)
+p_a <- pnorm(990, mean = media, sd = desvio_padrao)
+
+# b) P(|X - 1000| <= 2 * desvio_padrao)
+p_b <- pnorm(media + 2 * desvio_padrao, mean = media, sd = desvio_padrao) - pnorm(media - 2 * desvio_padrao, mean = media, sd = desvio_padrao)
+
+# c) Probabilidade de no máximo 4 de 10 garrafas terem volume superior a 1002
+p_sucesso <- 1 - pnorm(1002, mean = media, sd = desvio_padrao)
+p_c <- pbinom(4, size = 10, prob = p_sucesso)
+
+# Resultados
+cat("a) P(X < 990):", p_a * 100, "%\n")
+cat("b) P(|X - 1000| <= 2 * desvio_padrao):", p_b * 100, "%\n")
+cat("c) P(no máximo 4 garrafas > 1002 cm³):", p_c * 100, "%\n")
+
+# Questão 3:
+# Em um teste de aptidão, o tempo para completar o teste segue uma distribuição normal com média de 45 minutos e desvio padrão de 20 minutos. 
+# A amostra é de 50 candidatos.
+# a) Qual a probabilidade de um candidato ter um tempo superior a 50 minutos ou inferior a 30 minutos?
+# b) Quantos candidatos, aproximadamente, têm tal perfil?
+
+# Parâmetros
+media <- 45  # tempo médio
+desvio_padrao <- 20  # desvio padrão
+n <- 50  # número de candidatos
+
+# a) P(X > 50 ou X < 30)
+p_a <- (1 - pnorm(50, mean = media, sd = desvio_padrao)) + pnorm(30, mean = media, sd = desvio_padrao)
+
+# b) Número de candidatos com esse perfil
+num_candidatos <- p_a * n
+
+# Resultados
+cat("a) P(X > 50 ou X < 30):", p_a * 100, "%\n")
+cat("b) Número de candidatos:", round(num_candidatos), "\n")
+
+# Questão 4:
+# Uma máquina produz discos com diâmetro médio de 2 cm e desvio padrão de 0,01 cm. As peças que se afastam mais de 0,03 cm do valor médio são consideradas defeituosas.
+# Qual a porcentagem de peças defeituosas?
+
+# Parâmetros
+media <- 2  # diâmetro médio dos discos
+desvio_padrao <- 0.01  # desvio padrão dos discos
+
+# Peças defeituosas são aquelas com diâmetro fora do intervalo (1.97, 2.03)
+p_defeito <- pnorm(1.97, mean = media, sd = desvio_padrao) + (1 - pnorm(2.03, mean = media, sd = desvio_padrao))
+
+# Resultado
+cat("Percentual de peças defeituosas:", p_defeito * 100, "%\n")
+
+# Questão 5:
+# A vida média de uma televisão é de 8 anos com desvio padrão de 1,8 anos. Qual deve ser o tempo de garantia para que no máximo 5% dos produtos precisem de troca?
+
+# Parâmetros
+media <- 8  # vida média da televisão
+desvio_padrao <- 1.8  # desvio padrão
+
+# Garantia para no máximo 5% de trocas
+tempo_garantia <- qnorm(0.05, mean = media, sd = desvio_padrao)
+
+# Resultado
+cat("Tempo de garantia para no máximo 5% de trocas:", tempo_garantia, "anos\n")
+
+# Questão 6:
+# O tempo médio de atendimento em um caixa de banco é de 5 minutos, com distribuição exponencial.
+# a) Qual a probabilidade de um cliente esperar mais de 5 minutos?
+# b) Qual a probabilidade de um cliente esperar menos de 4 minutos?
+# c) Qual a probabilidade de um cliente esperar entre 3 e 8 minutos?
+
+# Parâmetros
+media <- 5  # tempo médio de atendimento
+
+# a) P(X > 5)
+p_a <- 1 - pexp(5, rate = 1/media)
+
+# b) P(X < 4)
+p_b <- pexp(4, rate = 1/media)
+
+# c) P(3 < X < 8)
+p_c <- pexp(8, rate = 1/media) - pexp(3, rate = 1/media)
+
+# Resultados
+cat("a) P(X > 5):", p_a * 100, "%\n")
+cat("b) P(X < 4):", p_b * 100, "%\n")
+cat("c) P(3 < X < 8):", p_c * 100, "%\n")
+
+# Questão 7:
+# O tempo médio de uma cirurgia de reconstrução ACL é de 129 minutos com desvio padrão de 14 minutos.
+# a) Qual é a probabilidade de uma cirurgia durar mais de dois desvios padrão acima da média?
+# b) Qual a probabilidade de uma cirurgia ser concluída em menos de 100 minutos?
+# c) Qual é o tempo que garante que 95% das cirurgias sejam completadas em menos tempo?
+# d) Se uma cirurgia demora 199 minutos, o que isso sugere sobre a demanda desse hospital?
+
+# Parâmetros
+media <- 129  # tempo médio da cirurgia
+desvio_padrao <- 14  # desvio padrão
+
+# a) P(X > media + 2 * desvio_padrao)
+p_a <- 1 - pnorm(media + 2 * desvio_padrao, mean = media, sd = desvio_padrao)
+
+# b) P(X < 100)
+p_b <- pnorm(100, mean = media, sd = desvio_padrao)
+
+# c) Tempo para P(X <= T) = 0.95
+tempo_95 <- qnorm(0.95, mean = media, sd = desvio_padrao)
+
+# Resultados
+cat("a) P(X > media + 2 * desvio_padrao):", p_a * 100, "%\n")
+cat("b) P(X < 100):", p_b * 100, "%\
+
+# Questão 8:
+# Um fabricante de baterias sabe que a vida útil de suas baterias segue uma distribuição normal com média de 600 dias e desvio padrão de 100 dias. 
+# Ele oferece uma garantia de 312 dias. A fábrica produz 10.000 baterias por mês. Quantas baterias devem ser trocadas mensalmente devido à garantia?
+
+# Parâmetros
+media <- 600  # vida útil média das baterias em dias
+desvio_padrao <- 100  # desvio padrão em dias
+garantia <- 312  # período de garantia oferecido
+n_baterias <- 10000  # número de baterias fabricadas mensalmente
+
+# Calculamos a probabilidade de uma bateria falhar antes de 312 dias, ou seja, P(X < 312)
+p_troca <- pnorm(garantia, mean = media, sd = desvio_padrao)
+
+# Multiplicamos a probabilidade pela quantidade de baterias fabricadas para estimar quantas baterias serão trocadas
+n_trocas <- p_troca * n_baterias
+
+# Resultado
+cat("Número estimado de baterias a serem trocadas:", round(n_trocas), "\n")
+
+# Questão 9:
+# Sabe-se que os pacotes de queijo ralado vendidos no supermercado possuem uma distribuição normal com média de 100 g e desvio padrão de 10 g. 
+# a) Qual a probabilidade de encontrar um pacote com peso entre 95 g e 105 g?
+# b) Se 16 pacotes são escolhidos ao acaso, qual é a probabilidade de o peso médio desses pacotes estar entre 95 g e 105 g?
+
+# Parâmetros
+media <- 100  # peso médio em gramas
+desvio_padrao <- 10  # desvio padrão em gramas
+n <- 16  # número de pacotes
+
+# a) Probabilidade de encontrar um pacote com peso entre 95 g e 105 g
+p_a <- pnorm(105, mean = media, sd = desvio_padrao) - pnorm(95, mean = media, sd = desvio_padrao)
+
+# b) Probabilidade de a média dos pesos de 16 pacotes estar entre 95 g e 105 g
+desvio_padrao_amostra <- desvio_padrao / sqrt(n)  # desvio padrão da média amostral
+p_b <- pnorm(105, mean = media, sd = desvio_padrao_amostra) - pnorm(95, mean = media, sd = desvio_padrao_amostra)
+
+# Resultado
+cat("a) P(95 < X < 105):", p_a, "\n")
+cat("b) P(95 < X_barra < 105) para 16 pacotes:", p_b, "\n")
+
+# Questão 10:
+# O tempo até a falha de um conjunto de motores elétricos segue uma distribuição exponencial com uma média de 28.500 horas.
+# Qual é a probabilidade de um motor falhar nas primeiras 24.000 horas de funcionamento?
+
+# Parâmetros
+media <- 28500  # vida média dos motores em horas
+
+# a) P(X < 24000) - Probabilidade de um motor falhar antes de 24.000 horas
+p_a <- pexp(24000, rate = 1/media)
+
+# Resultado
+cat("Probabilidade de falhar nas primeiras 24.000 horas:", p_a, "\n")
+
+# Questão 11:
+# Considere que o tempo de resposta de um monitor LCD siga uma distribuição exponencial com uma média de 5 milissegundos. 
+# a) Qual a probabilidade de o tempo de resposta ser no máximo 10 milissegundos? 
+# b) Qual a probabilidade de o tempo de resposta estar entre 5 e 10 milissegundos?
+
+# Parâmetros
+media <- 5  # tempo médio de resposta em milissegundos
+
+# a) P(X <= 10) - Probabilidade de o tempo de resposta ser no máximo 10 milissegundos
+p_a <- pexp(10, rate = 1/media)
+
+# b) P(5 < X <= 10) - Probabilidade de o tempo de resposta estar entre 5 e 10 milissegundos
+p_b <- pexp(10, rate = 1/media) - pexp(5, rate = 1/media)
+
+# Resultados
+cat("a) P(X <= 10):", p_a, "\n")
+cat("b) P(5 < X <= 10):", p_b, "\n")
+
+# Questão 12:
+# Considere uma reação com catalisadores de enzimas que segue uma distribuição exponencial com uma média de 4.000 segundos.
+# a) Qual a probabilidade de uma reação durar mais de 2.000 segundos?
+# b) Qual a probabilidade de uma reação durar pelo menos 6.000 segundos, sabendo-se que ela já durou 4.000 segundos?
+
+# Parâmetros
+media <- 4000  # tempo médio de reação em segundos
+
+# a) P(X > 2000) - Probabilidade de a reação durar mais de 2.000 segundos
+p_a <- 1 - pexp(2000, rate = 1/media)
+
+# b) P(X > 6000 | X > 4000) - Probabilidade condicional para a distribuição exponencial
+p_b <- 1 - pexp(2000, rate = 1/media)
+
+# Resultados
+cat("a) P(X > 2000):", p_a, "\n")
+cat("b) P(X > 6000 | X > 4000):", p_b, "\n")
+
+# Questão 13:
+# Suponha que os motores de uma fábrica de carros tenham duração normal com média de 150.000 km e desvio padrão de 5.000 km.
+# a) Qual a probabilidade de que um motor dure menos de 170.000 km?
+# b) Qual a probabilidade de que um motor dure entre 140.000 km e 165.000 km?
+# c) Se a fábrica substitui motores com duração inferior à garantia, qual deve ser essa garantia para que no máximo 0,2% dos motores sejam substituídos?
+
+# Parâmetros
+media <- 150000  # duração média dos motores em km
+desvio_padrao <- 5000  # desvio padrão em km
+
+# a) P(X < 170000) - Probabilidade de o motor durar menos de 170.000 km
+p_a <- pnorm(170000, mean = media, sd = desvio_padrao)
+
+# b) P(140000 < X < 165000) - Probabilidade de o motor durar entre 140.000 km e 165.000 km
+p_b <- pnorm(165000, mean = media, sd = desvio_padrao) - pnorm(140000, mean = media, sd = desvio_padrao)
+
+# c) Garantia para que no máximo 0,2% dos motores sejam substituídos (P(X < garantia) = 0.002)
+garantia <- qnorm(0.002, mean = media, sd = desvio_padrao)
+
+# Resultados
+cat("a) P(X < 170000):", p_a, "\n")
+cat("b) P(140000 < X < 165000):", p_b, "\n")
+cat("c) Garantia para 0,2% de substituições:", round(garantia), "km\n")
+
+# Questão 14:
+# Suponha que o peso de uma população de adultos siga uma distribuição normal com média de 75 kg e desvio padrão de 8 kg, 
+# enquanto que o peso de praticantes de sumô siga uma distribuição normal com média de 110 kg e desvio padrão de 5 kg. 
+# Sete adultos comuns e três praticantes de sumô vão entrar em um elevador com capacidade máxima de 850 kg.
+# Qual é a probabilidade de o peso dessas 10 pessoas ultrapassar a capacidade máxima do elevador?
+
+# Parâmetros
+media_adultos <- 75  # média de peso de adultos comuns em kg
+desvio_padrao_adultos <- 8  # desvio padrão de adultos comuns em kg
+n_adultos <- 7  # número de adultos comuns
+
+media_sumo <- 110  # média de peso de praticantes de sumô em kg
+desvio_padrao_sumo <- 5  # desvio padrão de praticantes de sumô em kg
+n_sumo <- 3  # número de praticantes de sumô
+
+capacidade_elevador <- 850  # capacidade máxima
+
+# Questão 15:
+# A capacidade máxima de um elevador é de 500 kg. Se o peso dos usuários segue uma distribuição normal com média de 70 kg e variância de 100 kg²,
+# a) Qual é a probabilidade de sete passageiros ultrapassarem o limite de 500 kg?
+# b) E seis passageiros?
+
+# Parâmetros
+media_pessoa <- 70  # peso médio de cada passageiro em kg
+variancia_pessoa <- 100  # variância do peso de cada passageiro
+desvio_padrao_pessoa <- sqrt(variancia_pessoa)  # desvio padrão em kg
+
+capacidade_elevador <- 500  # capacidade máxima do elevador
+
+# a) Probabilidade de 7 passageiros ultrapassarem o limite
+n_passageiros_7 <- 7  # número de passageiros
+media_total_7 <- n_passageiros_7 * media_pessoa  # soma das médias
+desvio_padrao_total_7 <- sqrt(n_passageiros_7 * variancia_pessoa)  # desvio padrão total
+
+# Usamos pnorm para calcular P(X > 500), ou seja, 1 - P(X <= 500)
+p_7_passageiros <- 1 - pnorm(capacidade_elevador, mean = media_total_7, sd = desvio_padrao_total_7)
+
+# b) Probabilidade de 6 passageiros ultrapassarem o limite
+n_passageiros_6 <- 6  # número de passageiros
+media_total_6 <- n_passageiros_6 * media_pessoa  # soma das médias
+desvio_padrao_total_6 <- sqrt(n_passageiros_6 * variancia_pessoa)  # desvio padrão total
+
+# Usamos pnorm para calcular P(X > 500)
+p_6_passageiros <- 1 - pnorm(capacidade_elevador, mean = media_total_6, sd = desvio_padrao_total_6)
+
+# Resultados
+cat("a) Probabilidade de 7 passageiros ultrapassarem o limite:", p_7_passageiros, "\n")
+cat("b) Probabilidade de 6 passageiros ultrapassarem o limite:", p_6_passageiros, "\n")
+
+# Questão 16:
+# O lucro diário de uma corretora de valores é dado por L = 2*LA + 5*LI + 3*LC, onde LA, LI e LC são os lucros diários nos setores de Agricultura, Indústria e Comércio, respectivamente.
+# As distribuições de probabilidades dessas variáveis aleatórias são:
+# LA ~ N(3, 4), LI ~ N(6, 9) e LC ~ N(4, 16). Supondo independência entre os setores:
+# a) Qual é a distribuição normal do lucro dos três setores?
+# b) Qual é a probabilidade de o lucro diário ser superior a R$ 50.000,00?
+
+# Parâmetros
+media_LA <- 3  # média do lucro no setor de Agricultura
+desvio_padrao_LA <- sqrt(4)  # desvio padrão no setor de Agricultura (variância = 4)
+
+media_LI <- 6  # média do lucro no setor de Indústria
+desvio_padrao_LI <- sqrt(9)  # desvio padrão no setor de Indústria (variância = 9)
+
+media_LC <- 4  # média do lucro no setor de Comércio
+desvio_padrao_LC <- sqrt(16)  # desvio padrão no setor de Comércio (variância = 16)
+
+# a) Distribuição do lucro total L = 2*LA + 5*LI + 3*LC
+# A média total é a soma das médias ponderadas pelos coeficientes
+media_L <- (2 * media_LA) + (5 * media_LI) + (3 * media_LC)
+
+# O desvio padrão total é a raiz quadrada da soma das variâncias multiplicadas pelos quadrados dos coeficientes
+variancia_L <- (2^2 * desvio_padrao_LA^2) + (5^2 * desvio_padrao_LI^2) + (3^2 * desvio_padrao_LC^2)
+desvio_padrao_L <- sqrt(variancia_L)
+
+# b) Probabilidade de o lucro diário ser superior a R$ 50.000,00
+# Usamos pnorm para calcular P(L > 50) = 1 - P(L <= 50)
+p_lucro_maior_50 <- 1 - pnorm(50, mean = media_L, sd = desvio_padrao_L)
+
+# Resultados
+cat("a) Média do lucro total:", media_L, "\n")
+cat("b) Desvio padrão do lucro total:", desvio_padrao_L, "\n")
+cat("c) Probabilidade de lucro superior a R$ 50.000,00:", p_lucro_maior_50, "\n")
+
+# Questão 17:
+# O tempo necessário para que uma bactéria do tipo Bacillus Velox se reproduza segue uma distribuição exponencial com média de 10 minutos.
+# a) Qual é a probabilidade de essa bactéria se reproduzir em menos de 7 minutos?
+# b) Qual é a probabilidade de a bactéria se reproduzir entre 5 e 8 minutos?
+# c) Qual é o valor esperado e a variância do tempo de reprodução?
+
+# Parâmetros
+media <- 10  # tempo médio de reprodução em minutos
+
+# a) P(X < 7) - Probabilidade de a bactéria se reproduzir em menos de 7 minutos
+p_a <- pexp(7, rate = 1/media)
+
+# b) P(5 < X < 8) - Probabilidade de a bactéria se reproduzir entre 5 e 8 minutos
+p_b <- pexp(8, rate = 1/media) - pexp(5, rate = 1/media)
+
+# c) Valor esperado e variância da distribuição exponencial
+valor_esperado <- media  # valor esperado é a média
+variancia <- media^2  # variância é o quadrado da média
+
+# Resultados
+cat("a) P(X < 7):", p_a, "\n")
+cat("b) P(5 < X < 8):", p_b, "\n")
+cat("c) Valor esperado:", valor_esperado, "minutos\n")
+cat("d) Variância:", variancia, "minutos^2\n")
+
+# Questão 18:
+# As medidas de corrente elétrica em um pedaço de fio seguem uma distribuição normal com média de 10 miliamperes e variância de 4 miliamperes.
+# a) Qual é a probabilidade de a medida exceder 13 miliamperes?
+# b) Qual é a probabilidade de a corrente estar entre 9 e 11 miliamperes?
+# c) Qual o valor para o qual a probabilidade de uma medida de corrente estar abaixo desse valor seja 0,98?
+
+# Parâmetros
+media <- 10  # média da corrente em miliamperes
+variancia <- 4  # variância em miliamperes²
+desvio_padrao <- sqrt(variancia)  # desvio padrão
+
+# a) P(X > 13) - Probabilidade de a corrente elétrica exceder 13 miliamperes
+# Usamos pnorm para calcular P(X > 13) = 1 - P(X <= 13)
+p_a <- 1 - pnorm(13, mean = media, sd = desvio_padrao)
+
+# b) P(9 < X < 11) - Probabilidade de a corrente estar entre 9 e 11 miliamperes
+# Usamos pnorm para calcular P(9 < X < 11) = P(X <= 11) - P(X <= 9)
+p_b <- pnorm(11, mean = media, sd = desvio_padrao) - pnorm(9, mean = media, sd = desvio_padrao)
+
+# c) Valor para o qual P(X <= valor) = 0.98
+valor_98 <- qnorm(0.98, mean = media, sd = desvio_padrao)
+
+# Resultados
+cat("a) P(X > 13):", p_a, "\n")
+cat("b) P(9 < X < 11):", p_b, "\n")
+cat("c) Valor para o qual P(X <= valor) = 0.98:", valor_98, "\n")
+#################################################################################################
+##############################################AB2################################################
+#################################################################################################
