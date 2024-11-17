@@ -194,12 +194,63 @@ cat ( "[", p-erro, ", ",p + erro, "］")
 #Leitura de datasets, summary, anova & post.hoc
 
 
+#TESTES DE HIPÓTESES para a Média com Variância Desconhecida:
 
-#cont: slide 33/87 teste de hipóteses.
+#Exemplo 1:
+#Os registros dos últimos anos de um colégio atestam para os calouros admitidos tem nota média 115 (teste                                                                                 vocacional).Paratestarahipótesedequeamédiadeumanovaturmaéamesmadasturmasanteriores,
+#retirou–se uma amostra de 20 notas, obtendo–se média 118 e desvio padrão 20. Admita um nível de
+#significância de 5% para efetuar o teste. 
+
+qt(0.025, 19); qt(0.975, 19)
+
+#Exemplo 2 - Foram coletados dados na Universidade Federal,  em que buscou constatar se a tensão 
+#fornecida pela rede corresponderia a tensão de 127 V em tomadas da Universidade. Foram analisadas no 
+#total 15 tomadas, as quais compuseram a amostra: 125; 124; 125; 125; 125; 125; 124; 123; 122; 123; 123; 
+#123; 123; 124; 124.  (calculando: desvio padrão = 0,99 e média = 123,87). Nível de confiança de 95%.
+
+x<- c(125, 124, 125, 125, 125, 125, 124, 123, 122, 123, 123, 123, 123, 124, 124)
+
+media = mean(x)
+desvio = sd(x)
+n = length(x)
+tc = media = (media - 127)/(desvio/sqrt(n))
+tc
+
+qt(0.025, 14); qt(0.975, 14)
+
+t.test(x, conf = 0.95, mu = 127)
+
+#Exemplo3:
+#  Deseja-se investigar-se uma certa moléstia que ataca o rim alterao consumo de oxigênio
+#desse órgão.Para indivíduos sadios,admite-se que esse consumo temdistribuição Normal
+#com média 12cm3/min.Os valores medidos em cinco pacientes com amoléstia foram:14,4;
+#12,9;15,0;13,7 e 13,5.Qual seria a conclusão,ao nível de 1% de significância?
+#  O teste de interesse é:
+#  H0:A moléstia não altera a média de consumo renal de oxigênio;
+#H1:Indivíduos portadores da moléstia têm média alterada.
+#Hipóteses:
+#  H0: =12
+#H1: 12
+
+qt(0.005, 4); qt (0.005, 4)
+
+vp = c(14.4, 12.9, 15.0, 13.7, 13.5)
+mean (vp)
+sd(vp)
+t.test(vp, mu = 12, alternative = "two.side", conf.level = 0.99)
+
+#Teste de T-student:
+
+altura <- c(152.0, 153.1, 154.6, 157.8, 158.8, 159.6, 161.1, 161.6, 162.7, 163.7, 164.1, 165.5, 165.8, 168.4, 168.4, 169.1, 169.1, 170.2, 172.4, 172.9, 173.1, 173.3, 175.6, 176.9, 179.0)
+
+t.test(altura, mu= 160)
 
 
+#Exemplo 7 –Um centro de pesquisa declara que menos de 20% dos usuários de internet nos 
+#Estados Unidos tem rede sem fio em suas casas. Em uma amostra aleatória de 100 adultos, 15 
+#deles dizem que tem rede sem fio em casa. Com nível significância de 1%, há evidência suficiente 
+#para apoiar a declaração do pesquisador? 
 
-
-
+#Comando útil: sample
 
 
